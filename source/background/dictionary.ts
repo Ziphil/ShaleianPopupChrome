@@ -38,7 +38,11 @@ export class DictionaryController extends Controller {
       let parameter = new NormalParameter(name, "name", "exact", "ja", {diacritic: false, case: false});
       let result = dictionary.search(parameter);
       let word = result.words[0];
-      sendResponse(word?.toPlain());
+      if (word) {
+        sendResponse(word.toPlain());
+      } else {
+        sendResponse();
+      }
     }
   }
 

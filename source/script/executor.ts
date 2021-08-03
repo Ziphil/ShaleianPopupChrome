@@ -13,6 +13,15 @@ export abstract class Executor {
     return executor;
   }
 
+  protected sendMessage<M = any, R = any>(channel: string, message: M): Promise<R> {
+    let promise = new Promise<R>((resolve, reject) => {
+      chrome.runtime.sendMessage<M, R>({...message, channel}, (response) => {
+        resolve(response);
+      });
+    });
+    return promise;
+  }
+
   public static addLoadListener(listener: (event: Event) => any): void {
     window.addEventListener("load", listener);
   }

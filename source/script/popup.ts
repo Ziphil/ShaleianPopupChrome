@@ -28,15 +28,14 @@ export class PopupExecutor extends Executor {
     let linkElements = document.querySelectorAll<HTMLAnchorElement>(".sans a");
     let popupElement = document.getElementById("shp-root")!;
     linkElements.forEach((linkElement) => {
-      linkElement.addEventListener("mouseover", () => {
+      linkElement.addEventListener("mouseover", async () => {
         let name = linkElement.innerText;
-        chrome.runtime.sendMessage({channel: "searchByName", name}, (plainWord) => {
-          let word = (plainWord !== null) ? Parser.createSimple().parse(Word.fromPlain(plainWord)) : null;
-          let html = (word !== null) ? PopupExecutor.createWordHtml(word) : null;
-          if (html !== null) {
-            popupElement.innerHTML = html;
-          }
-        });
+        let plainWord = await this.sendMessage("searchByName", {name});
+        let word = (plainWord !== null) ? Parser.createSimple().parse(Word.fromPlain(plainWord)) : null;
+        let html = (word !== null) ? PopupExecutor.createWordHtml(word) : null;
+        if (html !== null) {
+          popupElement.innerHTML = html;
+        }
       });
     });
   }

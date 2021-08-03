@@ -41,7 +41,19 @@ export class DictionaryController extends Controller {
       if (word) {
         sendResponse(word.toPlain());
       } else {
-        sendResponse();
+        if (result.suggestions.length > 0 && result.suggestions[0].kind !== "revision") {
+          let suggestion = result.suggestions[0];
+          let suggestedParameter = new NormalParameter(suggestion.names[0], "name", "exact", "ja", {diacritic: false, case: false});
+          let suggestedResult = dictionary.search(suggestedParameter);
+          let suggestedWord = suggestedResult.words[0];
+          if (suggestedWord) {
+            sendResponse(suggestedWord.toPlain());
+          } else {
+            sendResponse();
+          }
+        } else {
+          sendResponse();
+        }
       }
     }
   }

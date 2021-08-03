@@ -16,7 +16,7 @@ let commonConfig = {
   entry: {
     script: ["./source/script/index.ts"],
     background: ["./source/background/index.ts"],
-    popup: ["./source/public/popup.scss"]
+    popup: ["./source/public/popup-external.scss"]
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -46,7 +46,19 @@ let commonConfig = {
         }
       },
       {
-        test: /\.scss$/,
+        test: /(?<!external)\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "raw-loader"
+          },
+          {
+            loader: "sass-loader"
+          }
+        ]
+      },
+      {
+        test: /external\.scss$/,
         exclude: /node_modules/,
         use: [
           {

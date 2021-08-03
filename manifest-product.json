@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Shaleian Dictionary Popup",
+  "version": "0.0.0",
+  "description": "Chrome extension",
+  "content_scripts": [
+    {
+      "matches": ["http://ziphil.com/*"],
+      "js": ["source/script.js"]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "source/background.js"
+    ]
+  },
+  "permissions": [
+    "tabs"
+  ]
+}

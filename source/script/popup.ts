@@ -35,12 +35,23 @@ export class PopupExecutor extends Executor {
         let html = (word !== null) ? PopupExecutor.createWordHtml(word) : null;
         if (html !== null) {
           popupElement.innerHTML = html;
+          popupElement.style.display = "block";
+          this.movePopupElement(linkElement);
         }
       });
     });
   }
 
-  private static createWordHtml(word: ParsedWord<string>): string | null{
+  private movePopupElement(targetElement: HTMLElement): void {
+    let popupElement = document.getElementById("shp-root")!;
+    let rect = targetElement.getBoundingClientRect();
+    let top = window.pageYOffset + rect.top - popupElement.offsetHeight - 10;
+    let left = window.pageXOffset + rect.left - (popupElement.offsetWidth - targetElement.offsetWidth) / 2;
+    popupElement.style.top = `${top}px`;
+    popupElement.style.left = `${left}px`;
+  }
+
+  private static createWordHtml(word: ParsedWord<string>): string | null {
     let section = word.parts["ja"]?.sections[0];
     if (section !== undefined) {
       let html = "";

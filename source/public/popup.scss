@@ -10,6 +10,11 @@
   box-shadow: 0px 3px 6px 0px rgba(black, 0.2);
 }
 
+.head {
+  margin-bottom: 5px;
+  font-size: 115%;
+}
+
 .small-head {
   margin: 0px 5px 0px 0px;
   font-size: 80%;
@@ -28,16 +33,20 @@
 }
 
 .tag {
-  min-width: 14px;
   padding: 1px 2px;
   font-size: 80%;
   text-align: center;
+  line-height: 1;
   border: 1px hsl(0, 0%, 50%) solid;
   border-radius: 3px;
   box-sizing: border-box;
   display: inline-block;
   position: relative;
   bottom: 1px;
+}
+
+.text {
+  line-height: 1.1;
 }
 
 .small {

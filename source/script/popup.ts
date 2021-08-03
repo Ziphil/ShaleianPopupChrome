@@ -74,6 +74,7 @@ export class PopupExecutor extends Executor {
       let html = "";
       let equivalents = section.getEquivalents(true);
       let informations = section.getNormalInformations(true).filter((information) => information.kind === "meaning" || information.kind === "usage");
+      html += `<div class="head"><span class="sans">${word.name}</span></div>`;
       html += `<div class="equivalents section-item list">`;
       for (let equivalent of equivalents) {
         html += `<div class="equivalent text list-item">`;

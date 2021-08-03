@@ -31,7 +31,7 @@ export class PopupExecutor extends Executor {
       linkElement.addEventListener("mouseover", async () => {
         let name = linkElement.innerText;
         let plainWord = await this.sendMessage("searchByName", {name});
-        let word = (plainWord !== null) ? Parser.createSimple().parse(Word.fromPlain(plainWord)) : null;
+        let word = (plainWord !== null && plainWord !== undefined) ? Parser.createSimple().parse(Word.fromPlain(plainWord)) : null;
         let html = (word !== null) ? PopupExecutor.createWordHtml(word) : null;
         if (html !== null) {
           popupElement.innerHTML = html;

@@ -6,7 +6,8 @@
   "content_scripts": [
     {
       "matches": ["http://ziphil.com/*"],
-      "js": ["source/script.js"]
+      "js": ["source/script.js"],
+      "css": ["public/popup.css"]
     }
   ],
   "background": {

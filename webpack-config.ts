@@ -5,6 +5,7 @@ import {
   CleanWebpackPlugin
 } from "clean-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import merge from "webpack-merge";
 import {
   Configuration
@@ -14,7 +15,8 @@ import {
 let commonConfig = {
   entry: {
     script: ["./source/script/index.ts"],
-    background: ["./source/background/index.ts"]
+    background: ["./source/background/index.ts"],
+    popup: ["./source/public/popup.scss"]
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -42,11 +44,26 @@ let commonConfig = {
         use: {
           loader: "source-map-loader"
         }
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "sass-loader"
+          }
+        ]
       }
     ]
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".js", ".scss"]
   }
 };
 
@@ -57,15 +74,15 @@ let developConfig = merge<Configuration>(commonConfig, {
   },
   devtool: "source-map",
   plugins: [
-    new CopyWebpackPlugin({patterns: [{from: "manifest-develop.json", to: "manifest.json"}]})
+    new CopyWebpackPlugin({patterns: [{from: "manifest-develop.json", to: "manifest.json"}]}),
+    new MiniCssExtractPlugin({filename: "public/[name].css"})
   ]
 });
 
 let productConfig = merge<Configuration>(commonConfig, {
   mode: "production",
   plugins: [
-    new CleanWebpackPlugin(),
-    new CopyWebpackPlugin({patterns: [{from: "manifest-product.json", to: "manifest.json"}]})
+    new CleanWebpackPlugin()
   ]
 });
 

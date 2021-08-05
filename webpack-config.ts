@@ -76,7 +76,10 @@ let commonConfig = {
   },
   resolve: {
     extensions: [".ts", ".js", ".scss"]
-  }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({filename: "public/[name].css"})
+  ]
 };
 
 let developConfig = merge<Configuration>(commonConfig, {
@@ -87,14 +90,14 @@ let developConfig = merge<Configuration>(commonConfig, {
   devtool: "source-map",
   plugins: [
     new CopyWebpackPlugin({patterns: [{from: "manifest-develop.json", to: "manifest.json"}]}),
-    new MiniCssExtractPlugin({filename: "public/[name].css"})
   ]
 });
 
 let productConfig = merge<Configuration>(commonConfig, {
   mode: "production",
   plugins: [
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({patterns: [{from: "manifest-product.json", to: "manifest.json"}]}),
   ]
 });
 
